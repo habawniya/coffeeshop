@@ -24,15 +24,45 @@ User.find_or_create_by(email: "admin@gmail.com") do |user|
 end
 
 
-item = Item.find_or_create_by!(name: "Paneer Pizza") do |i|
-  i.price = 260
-  i.tax_rate = 5
-  i.available = true
-  i.category_id = 1
-end
+# item = Item.find_or_create_by!(name: "Paneer Pizza") do |i|
+#   i.price = 260
+#   i.tax_rate = 5
+#   i.available = true
+#   i.category_id = 1
+# end
 
-item.image.attach(
-  io: File.open(Rails.root.join("db/seeds/images/download.jpeg")),
-  filename: "download.jpeg",
-  content_type: "image/jpeg"
-)
+# item.image.attach(
+#   io: File.open(Rails.root.join("db/seeds/images/download.jpeg")),
+#   filename: "download.jpeg",
+#   content_type: "image/jpeg"
+# )
+
+
+items_data = [
+  { name: "paneer pizza", price: 260, tax_rate: 5, category_name: "Pizza", image: "paneer_pizza.jpeg" },
+  { name: "Margherita Pizza", price: 250, tax_rate: 5, category_name: "Pizza", image: "margherita_pizza.webp" },
+  { name: "Farmhouse Pizza", price: 300, tax_rate: 5, category_name: "Pizza", image: "farmhouse_pizza.jpeg" },
+  { name: "corn pizza", price: 230, tax_rate: 5, category_name: "Pizza", image: "corn_pizza.jpg" },
+  { name: "mix veg pizza", price: 260, tax_rate: 5, category_name: "Pizza", image: "mix_veg_pizza.jpg" }
+]
+
+
+items_data.each do |attrs|
+  category = Category.find_or_create_by!(name: attrs[:category_name])
+
+  item = Item.find_or_create_by!(name: attrs[:name]) do |i|
+    i.price = attrs[:price]
+    i.tax_rate = attrs[:tax_rate]
+    i.available = true
+    i.category_id = category.id
+  end
+
+  image_path = Rails.root.join("db/seeds/images/#{attrs[:image]}")
+  if File.exist?(image_path) && !item.image.attached?
+    item.image.attach(
+      io: File.open(image_path),
+      filename: attrs[:image],
+      content_type: "image/jpeg"
+    )
+  end
+end
