@@ -22,3 +22,16 @@ User.find_or_create_by(email: "admin@gmail.com") do |user|
   user.password_confirmation = "123456"
   user.role = 1  
 end
+
+
+Item.find_or_create_by!(name: "Cappuccino") do |item|
+  item.price = 150
+  item.description = "Delicious cappuccino with frothy milk"
+  item.image.attach(
+    io: File.open(Rails.root.join("db/seeds/images/cappuccino.jpg")),
+    filename: "cappuccino.jpg",
+    content_type: "image/jpeg"
+  )
+end
+
+

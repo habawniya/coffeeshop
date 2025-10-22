@@ -9,8 +9,11 @@
   </div>
   <% end %>
 
-<h1>📦 Your Orders</h1>
-
+ <% if current_user.admin?%>
+ <h1>📦 All Orders</h1>
+ <% else %>
+ <h1>📦 Your Orders</h1>
+ <% end  %>
 <% if @orders.any? %>
   <div class="orders-container">
     <% @orders.each do |order| %>
@@ -33,7 +36,11 @@
 <% else %>
   <div class="no-orders">
     <h3>No orders yet 🛒</h3>
+     <% if current_user.admin?%>
+    <%= link_to "Go to Items", items_path, class: "btn btn-primary" %>
+    <% else %>
     <p>Looks like you haven’t placed any orders.</p>
     <%= link_to "Browse Items", items_path, class: "btn btn-primary" %>
+    <% end %>
   </div>
 <% end %>

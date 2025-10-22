@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_item, only: [:show, :edit, :update]
+  before_action :set_item, only: [:show, :edit, :update, :destroy]
 
   # GET /items
   def index
@@ -50,6 +50,12 @@ class ItemsController < ApplicationController
     end
   end
 
+  # DELETE /items/:id
+  def destroy
+    authorize @item
+    @item.destroy
+    redirect_to items_path, notice: "Item deleted successfully."
+  end
 
   private
 
