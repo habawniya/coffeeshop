@@ -1,0 +1,81 @@
+<% if @cart_items.empty? %>
+  <div class="cart-empty">
+    <h2>Your Cart is Empty 🛒</h2>
+    <%= link_to "Continue Shopping", items_path, class: "cart-btn cart-btn-secondary" %>
+  </div>
+<% else %>
+  <h2>Your Cart 🛍️</h2>
+  <div class="cart-offer-banner">
+    🎉 Get 10% off on orders of ₹500 or more! 🎉
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Item</th>
+        <th>Price (₹)</th>
+        <th>Quantity</th>
+        <th>Tax (₹)</th>
+        <th>Total (with tax)</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @cart_items.each do |cart_item| %>
+        <% item_price = cart_item.item.price * cart_item.quantity %>
+        <% item_tax = item_price * (cart_item.item.tax_rate / 100.0) %>
+        <% total_with_tax = item_price + item_tax %>
+
+        <tr>
+          <td>
+            <% if cart_item.item.image.attached? %>
+              <%= image_tag cart_item.item.image, class: "cart-image" %>
+            <% else %>
+              <%= image_tag "https://via.placeholder.com/80", class: "cart-image" %>
+            <% end %>
+          </td>
+
+          <td><%= cart_item.item.name %></td>
+          <td><%= number_to_currency(cart_item.item.price, unit: "₹") %></td>
+
+          <td>
+            <% if cart_item.quantity > 1 %>
+              <%= button_to "-", cart_item_path(cart_item, quantity: cart_item.quantity - 1),
+                             method: :patch, class: "cart-btn cart-btn-sm cart-btn-secondary" %>
+            <% end %>
+
+            <%= cart_item.quantity %>
+
+            <%= button_to "+", cart_item_path(cart_item, quantity: cart_item.quantity + 1),
+                           method: :patch, class: "cart-btn cart-btn-sm cart-btn-secondary" %>
+          </td>
+
+          <td><%= number_to_currency(item_tax, unit: "₹") %></td>
+          <td><%= number_to_currency(total_with_tax, unit: "₹") %></td>
+
+          <td>
+            <%= button_to "Remove", cart_item_path(cart_item),
+                           method: :delete, class: "cart-btn cart-btn-danger cart-btn-sm" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="cart-summary">
+    <h3>Subtotal: <%= number_to_currency(@subtotal, unit: "₹") %></h3>
+    <h3>Total Tax: <%= number_to_currency(@tax_total, unit: "₹") %></h3>
+
+    <% if @discount > 0 %>
+      <p>Discount (10% off on ₹500+): <strong style="color: green;">-₹<%= @discount %></strong></p>
+    <% end %>
+
+    <h2>Grand Total: <%= number_to_currency(@grand_total, unit: "₹") %></h2>
+    <%= button_to "Place Order", orders_path, method: :post, class: "cart-btn cart-btn-success" %>
+  </div>
+
+  <div class="cart-action-buttons">
+    <%= link_to "← Continue Shopping", items_path, class: "cart-btn cart-btn-secondary" %>
+  </div>
+<% end %>

@@ -1,0 +1,25 @@
+<div class="order-manage-container">
+  <div class="order-section">
+    <h2>📦 Update Order Status</h2>
+    <%= form_with url: order_path(@order), method: :patch, local: true, html: { class: "status-form" } do |f| %>
+      <%= f.select :status, options_for_select(["pending", "preparing", "ready", "completed"], @order.status) %>
+      <%= f.submit "Update Status", class: "item-btn item-btn-success" %>
+    <% end %>
+  </div>
+
+  <div class="order-section">
+    <h2>🧾 Remove Items</h2>
+    <% @order.order_items.each do |oi| %>
+      <div class="remove-item">
+        <p><strong><%= oi.item.name %></strong> — Qty: <%= oi.quantity %></p>
+        <%= button_to "Remove",
+                      remove_item_order_path(@order, order_item_id: oi.id),
+                      method: :patch,
+                      data: { confirm: "Are you sure you want to remove this item?" },
+                      class: "item-btn item-btn-danger" %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= link_to "← Back to Orders", orders_path, class: "back-link" %>
+</div>

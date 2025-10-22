@@ -1,0 +1,39 @@
+  <% if current_user.admin?%>
+  <div class="cart-action-buttons">
+      <%= link_to "← Back", items_path, class: "cart-btn cart-btn-secondary" %>
+    </div>
+
+ <% else%>
+<div class="cart-action-buttons">
+    <%= link_to "← Continue Shopping", items_path, class: "cart-btn cart-btn-secondary" %>
+  </div>
+  <% end %>
+
+<h1>📦 Your Orders</h1>
+
+<% if @orders.any? %>
+  <div class="orders-container">
+    <% @orders.each do |order| %>
+      <div class="order-card">
+        <div class="order-header">
+          <h3>Order #<%= order.id %></h3>
+          <span class="order-status <%= order.status.downcase %>"><%= order.status.capitalize %></span>
+        </div>
+
+        <div class="order-details">
+          <p>🗓️ Placed on: <%= order.created_at.strftime("%d %b %Y, %I:%M %p") %></p>
+          <p>🛍️ Total Items: <%= order.order_items.sum(:quantity) %></p>
+          <p>💰 Grand Total: ₹<%= order.order_items.sum { |oi| oi.price } %></p>
+        </div>
+
+        <%= link_to "View Details →", order_path(order), class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="no-orders">
+    <h3>No orders yet 🛒</h3>
+    <p>Looks like you haven’t placed any orders.</p>
+    <%= link_to "Browse Items", items_path, class: "btn btn-primary" %>
+  </div>
+<% end %>

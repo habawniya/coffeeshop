@@ -1,0 +1,50 @@
+<div class="show-order-container">
+  <div class="show-order-header">
+    <h1>Order #<%= @order.id %></h1>
+    <span class="show-order-status <%= @order.status.downcase %>"><%= @order.status.capitalize %></span>
+  </div>
+
+  <p class="show-order-meta">🗓️ Ordered on: <%= @order.created_at.strftime("%d %b %Y, %I:%M %p") %></p>
+
+  <h2>🛍️ Items</h2>
+  <table class="show-order-items-table">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Item</th>
+        <th>Quantity</th>
+        <th>Price (incl. tax)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @order.order_items.each do |oi| %>
+        <tr>
+          <td>
+            <% if oi.item.image.attached? %>
+              <%= image_tag oi.item.image, class: "show-order-item-image" %>
+            <% else %>
+              <%= image_tag "https://via.placeholder.com/70", class: "show-order-item-image" %>
+            <% end %>
+          </td>
+          <td><%= oi.item.name %></td>
+          <td><%= oi.quantity %></td>
+          <td>₹<%= oi.price %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="show-order-summary-box">
+    <h3>Subtotal: ₹<%= @subtotal %></h3>
+    <h3>Total Tax: ₹<%= @total_tax %></h3>
+    <h2>Grand Total: ₹<%= @grand_total %></h2>
+  </div>
+</div>
+<div class="show-order-back-link">
+  <%= link_to "← Back to Orders", orders_path, class: "show-order-btn show-order-btn-secondary" %>
+
+  <% if current_user.admin? %>
+    <%= link_to "✏️ Update Order", edit_order_path(@order), class: "show-order-btn show-order-btn-primary", style: "margin-left: 10px;" %>
+  <% end %>
+</div>
+

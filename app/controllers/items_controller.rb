@@ -1,0 +1,63 @@
+class ItemsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_item, only: [:show, :edit, :update]
+
+  # GET /items
+  def index
+    @items = Item.where(available: true)
+    if params[:category_id].present?
+      @items = @items.where(category_id: params[:category_id])
+    end
+    @unavailable_items = Item.where(available: false)
+
+  end
+
+  # GET /items/:id
+  def show
+    authorize @item
+  end
+
+  # GET /items/new
+  def new
+    @item = Item.new
+    authorize @item
+  end
+
+  # POST /items
+  def create
+    @item = Item.new(item_params)
+    authorize @item
+
+    if @item.save
+      redirect_to items_path, notice: "Item created successfully."
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  # GET /items/:id/edit
+  def edit
+    authorize @item
+  end
+
+  # PATCH/PUT /items/:id
+  def update
+    authorize @item
+    if @item.update(item_params)
+      redirect_to items_path, notice: "Item updated successfully."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+
+  private
+
+  def set_item
+    @item = Item.find(params[:id])
+  end
+
+  def item_params
+    params.require(:item).permit(:name, :price, :tax_rate, :available, :category_id, :image)
+  end
+end

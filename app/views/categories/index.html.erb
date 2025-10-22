@@ -1,0 +1,18 @@
+<h1>Categories</h1>
+
+<div class="category-actions">
+  <%= link_to "Add Category", new_category_path, class: "item-btn item-btn-success" %>
+</div>
+
+<div class="category-list">
+  <% @categories.each do |category| %>
+    <div class="category-item">
+      <span class="category-label"><%= category.emoji %> <%= category.name %></span>
+      <div class="category-buttons">
+        <%= button_to "Delete", category_path(category), method: :delete, data: { confirm: "Are you sure?" }, class: "item-btn item-btn-secondary" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= link_to "← Back to Menu", items_path, class: "item-btn item-btn-primary" %>

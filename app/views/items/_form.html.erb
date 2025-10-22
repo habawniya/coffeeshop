@@ -1,0 +1,60 @@
+<%= form_with(model: @item, local: true, html: { multipart: true, class: "item-form" }) do |f| %>
+  <% if @item.errors.any? %>
+    <div id="error_explanation" class="item-form-errors">
+      <h2><%= pluralize(@item.errors.count, "error") %> prohibited this item from being saved:</h2>
+      <ul>
+        <% @item.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :name, "Item Name" %>
+    <%= f.text_field :name, placeholder: "Enter item name", class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :price, "Price (₹)" %>
+    <%= f.number_field :price, step: 0.01, placeholder: "Enter price", class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :tax_rate, "Tax Rate (%)" %>
+    <%= f.number_field :tax_rate, step: 0.01, placeholder: "Enter tax rate", class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :available, "Available?" %>
+    <%= f.check_box :available, class: "form-check-input" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :category_id, "Category" %>
+    <%= f.collection_select :category_id, Category.all, :id, :name, { prompt: "Select category" }, class: "form-control" %>
+  </div>
+
+  <!-- Image Preview -->
+  <div class="form-group">
+    <% if @item.image.attached? %>
+      <%= image_tag @item.image, width: 180, height: 180, style: "object-fit: cover; border: 1px solid #ccc;" %>
+    <% else %>
+      <%= image_tag "https://via.placeholder.com/180", width: 180, height: 180, style: "object-fit: cover; border: 1px solid #ccc;" %>
+    <% end %>
+  </div>
+
+  <!-- File Input to Upload New Image -->
+  <div class="form-group">
+    <%= f.label :image, "Upload New Image" %>
+    <%= f.file_field :image, class: "form-control-file" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit @item.new_record? ? "Create Item" : "Update Item", class: "item-btn item-btn-success" %>
+  </div>
+
+  <div class="form-group" style="margin-top: 10px;">
+    <%= link_to "← Back to Items", items_path, class: "item-btn item-btn-secondary" %>
+  </div>
+<% end %>

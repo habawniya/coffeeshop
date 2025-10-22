@@ -1,0 +1,17 @@
+<h1>New Category</h1>
+
+<%= form_with model: @category, local: true do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name, required: true %>
+  </div>
+
+  <div>
+    <%= f.label :emoji %>
+    <%= f.text_field :emoji, placeholder: "🍕", required: true %>
+  </div>
+
+  <div>
+    <%= f.submit "Create Category", class: "item-btn item-btn-success" %>
+  </div>
+<% end %>

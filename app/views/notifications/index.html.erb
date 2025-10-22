@@ -1,0 +1,22 @@
+<style>
+
+</style>
+
+<h2>🔔 Notifications</h2>
+
+<% if @notifications.any? %>
+  <ul class="notification-list">
+    <% @notifications.each do |notification| %>
+      <li class="notification-item">
+        <p class="notification-message"><%= notification.message %></p>
+        <span class="notification-time">
+          <%= notification.created_at.strftime("%d-%m-%Y %H:%M") %>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <div class="no-notifications">
+    <p>No notifications yet.</p>
+  </div>
+<% end %>
