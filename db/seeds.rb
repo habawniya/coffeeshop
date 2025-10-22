@@ -42,8 +42,8 @@ items_data = [
   { name: "paneer pizza", price: 260, tax_rate: 5, category_name: "Pizza", image: "paneer_pizza.jpeg" },
   { name: "Margherita Pizza", price: 250, tax_rate: 5, category_name: "Pizza", image: "margherita_pizza.webp" },
   { name: "Farmhouse Pizza", price: 300, tax_rate: 5, category_name: "Pizza", image: "farmhouse_pizza.jpeg" },
-  { name: "corn pizza", price: 230, tax_rate: 5, category_name: "Pizza", image: "corn_pizza.jpg" },
-  { name: "mix veg pizza", price: 260, tax_rate: 5, category_name: "Pizza", image: "mix_veg_pizza.jpg" }
+  { name: "Corn pizza", price: 230, tax_rate: 5, category_name: "Pizza", image: "corn_pizza.jpeg" },
+  { name: "Mix veg pizza", price: 260, tax_rate: 5, category_name: "Pizza", image: "mix_veg_pizza.jpeg" }
 ]
 
 
