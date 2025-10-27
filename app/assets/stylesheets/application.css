@@ -748,3 +748,188 @@
   display: flex;
   gap: 8px;
 }
+
+
+
+
+/* signup.css */
+
+/* Background and layout */
+.signup-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif;
+}
+
+.signup-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+/* Form fields */
+.signup-field {
+  margin-bottom: 20px;
+}
+
+.signup-label {
+  display: block;
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: 5px;
+}
+
+.signup-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.signup-input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 4px rgba(52, 152, 219, 0.4);
+}
+
+/* Password hint */
+.signup-hint {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+/* Button */
+.signup-btn {
+  width: 100%;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.signup-btn:hover {
+  background-color: #2980b9;
+}
+
+/* Links below the form */
+.signup-links {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.signup-links a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.signup-links a:hover {
+  text-decoration: underline;
+}
+
+
+
+/* Container */
+.login-container {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 30px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  background-color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+/* Heading */
+.login-heading {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+/* Form field container */
+.login-field {
+  margin-bottom: 20px;
+}
+
+/* Labels */
+.login-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+/* Inputs */
+.login-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: 0.3s border-color, 0.3s box-shadow;
+}
+
+.login-input:focus {
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  outline: none;
+}
+
+/* Checkbox container */
+.login-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Submit button */
+.login-submit {
+  width: 100%;
+  padding: 12px;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s background-color;
+}
+
+.login-submit:hover {
+  background-color: #0056b3;
+}
+
+/* Links below form */
+.login-links {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.login-links a {
+  color: #007BFF;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+.login-links a:hover {
+  text-decoration: underline;
+}
