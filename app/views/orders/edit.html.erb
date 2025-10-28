@@ -2,7 +2,7 @@
   <div class="order-section">
     <h2>📦 Update Order Status</h2>
     <%= form_with url: order_path(@order), method: :patch, local: true, html: { class: "status-form" } do |f| %>
-      <%= f.select :status, options_for_select(["pending", "preparing", "ready", "completed"], @order.status) %>
+      <%= f.select :status, options_for_select(["ready", "completed", "cancelled"], @order.status) %>
       <%= f.submit "Update Status", class: "item-btn item-btn-success" %>
     <% end %>
   </div>

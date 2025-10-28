@@ -28,7 +28,6 @@
           <p>🛍️ Total Items: <%= order.order_items.sum(:quantity) %></p>
           <p>💰 Grand Total: ₹<%= order.order_items.sum { |oi| oi.price } %></p>
         </div>
-
         <%= link_to "View Details →", order_path(order), class: "btn btn-primary" %>
       </div>
     <% end %>

@@ -2,14 +2,21 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item, only: [:show, :edit, :update, :destroy]
 
-  # GET /items
   def index
     @items = Item.where(available: true)
-    if params[:category_id].present?
-      @items = @items.where(category_id: params[:category_id])
-    end
+    @items = @items.where(category_id: params[:category_id]) if params[:category_id].present?
     @unavailable_items = Item.where(available: false)
 
+    respond_to do |format|
+    format.html
+    format.turbo_stream do
+    render turbo_stream: turbo_stream.replace(
+      "items_list",
+      partial: "items/items_list",
+      locals: { items: @items }
+    )
+     end
+   end
   end
 
   # GET /items/:id

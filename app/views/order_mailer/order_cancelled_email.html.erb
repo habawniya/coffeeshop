@@ -1,0 +1,14 @@
+<h1>Hello <%= @user.email %>,</h1>
+
+<p>Your order #<%= @order.id %> has been cancelled.</p>
+
+<p>Order Details:</p>
+<ul>
+  <% @order.order_items.each do |oi| %>
+    <li><%= oi.item.name %> x <%= oi.quantity %> - ₹<%= oi.price %></li>
+  <% end %>
+</ul>
+
+<p>Total Price: ₹<%= @order.total_price %></p>
+
+<p>Thank you for visiting us!</p>

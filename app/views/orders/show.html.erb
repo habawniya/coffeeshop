@@ -37,6 +37,10 @@
   <div class="show-order-summary-box">
     <h3>Subtotal: ₹<%= @subtotal %></h3>
     <h3>Total Tax: ₹<%= @total_tax %></h3>
+    <% if @discount > 0 %>
+    <p>Discount (10% off on ₹500+): <strong style="color: green;">-₹<%= @discount %></strong></p>
+    <% end %>
+
     <h2>Grand Total: ₹<%= @grand_total %></h2>
   </div>
 </div>

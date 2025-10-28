@@ -1,132 +1,119 @@
 <!-- app/views/pages/index.html.erb -->
 
-<% if current_user.admin?%>
-<header class="item-header">
-  <% if user_signed_in? %>
-    <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 5px;">
-      <%= button_to 'Sign out', destroy_user_session_path, method: :delete, class: "item-btn item-btn-secondary" %>
-      <h1>Welcome, Admin <%= current_user.email %> 👋</h1>
-    </div>
-    <div class="item-nav-links">
-      <%= link_to "Create and manage Category", categories_path, class: "btn-add-category" %>
-      <%= link_to 'Create New Item', new_item_path, class: "item-btn item-btn-success" %>
-      <%= link_to "All Orders", orders_path, class: "item-btn-orders" %>
-    </div>
-  <% else %>
-    <h1>Admin Panel</h1>
-    <div class="item-nav-links">
-      <%= link_to 'Sign in', new_user_session_path, class: "item-btn item-btn-primary" %>
-    </div>
-  <% end %>
-</header>
-
-<%= link_to "📋 All Menu", items_path, class: "item-category-label" %>
-<h2 style="margin-bottom: 15px;">📂 Categories</h2>
-<div class="item-categories">
-  <% Category.all.each do |category| %>
-    <%= link_to "#{category.emoji} #{category.name}", items_path(category_id: category.id), class: "item-category-label" %>
-  <% end %>
-</div>
-
-<h2 style="margin-bottom: 20px;">🛍️ Manage Items</h2>
-<div class="item-items-container">
-  <% @items.each do |item| %>
-    <div class="item-card">
-      <% if item.image.attached? %>
-        <%= image_tag item.image, width: 180, height: 180, style: "object-fit: cover;" %>
-      <% else %>
-        <%= image_tag "https://via.placeholder.com/180", width: 180, height: 180, style: "object-fit: cover;" %>
-      <% end %>
-      <p class="item-name"><%= item.name %></p>
-      <% if item.category %>
-        <span class="item-category"><%= item.category.emoji %> <%= item.category.name %></span>
-      <% end %>
-      <p class="item-price"><%= number_to_currency(item.price , unit: "₹") %></p>
-      <div class="admin-item-actions" style="margin-top: 10px;">
+<% if current_user&.admin? %>
+  <header class="item-header">
+    <% if user_signed_in? %>
+      <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 5px;">
+        <%= button_to 'Sign out', destroy_user_session_path, method: :delete, class: "item-btn item-btn-secondary" %>
+        <h1>Welcome, Admin <%= current_user.email %> 👋</h1>
       </div>
-      <div class="admin-item-actions" style="margin-top: 10px;">
-        <%= link_to "Edit", edit_item_path(item), class: "item-btn item-btn-primary" %>
+
+      <div class="item-nav-links">
+        <%= link_to "Create and manage Category", categories_path, class: "btn-add-category" %>
+        <%= link_to "Create New Item", new_item_path, class: "item-btn item-btn-success" %>
+        <%= link_to "All Orders", orders_path, class: "item-btn item-btn-orders" %>
       </div>
-    </div>
-  <% end %>
-</div>
-<h2 style="margin-bottom: 15px;">Unavailable Items</h2>
-<div class="item-categories">
-    <div class="item-items-container">
-  <% @unavailable_items.each do |item| %>
-    <div class="item-card">
-      <% if item.image.attached? %>
-        <%= image_tag item.image, width: 180, height: 180, style: "object-fit: cover;" %>
-      <% else %>
-        <%= image_tag "https://via.placeholder.com/180", width: 180, height: 180, style: "object-fit: cover;" %>
-      <% end %>
-      <p class="item-name"><%= item.name %></p>
-      <% if item.category %>
-        <span class="item-category"><%= item.category.emoji %> <%= item.category.name %></span>
-      <% end %>
-      <p class="item-price"><%= number_to_currency(item.price , unit: "₹") %></p>
-      <div class="admin-item-actions" style="margin-top: 10px;">
+    <% else %>
+      <h1>Admin Panel</h1>
+      <div class="item-nav-links">
+        <%= link_to "Sign in", new_user_session_path, class: "item-btn item-btn-primary" %>
       </div>
-      <div class="admin-item-actions" style="margin-top: 10px;">
-        <%= link_to "Edit", edit_item_path(item), class: "item-btn item-btn-primary" %>
-      </div>
-    </div>
-  <% end %>
+    <% end %>
+  </header>
 
+  <h2 style="margin-bottom: 15px;">📂 Categories</h2>
+  <div class="item-categories">
+    <%= link_to "📋 All Menu",
+                items_path,
+                class: "item-category-label",
+                data: { turbo_frame: "items_list" } %>
 
-<% else  %>
+    <% Category.all.each do |category| %>
+      <%= link_to "#{category.emoji} #{category.name}",
+                  items_path(category_id: category.id),
+                  class: "item-category-label",
+                  data: { turbo_frame: "items_list" } %>
+    <% end %>
+  </div>
 
+  <h2 style="margin-bottom: 20px;">🛍️ Manage Items</h2>
 
-<header class="item-header">
-  <% if user_signed_in? %>
-    <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 5px;">
-      <%= button_to 'Sign out', destroy_user_session_path, method: :delete, class: "item-btn item-btn-secondary" %>
-      <h1>Welcome, <%= current_user.email %> 👋</h1>
-    </div>
-    <div class="item-nav-links">
-      <%= link_to "My Orders", orders_path, class: "item-btn-orders" %>
-      <%= link_to "My Cart", cart_items_path, class: "item-btn-cart" %>
-      <div id="item-notification-bell">
-        <%= link_to notifications_path do %>
-          🔔
-          <span id="item-notification-count"><%= current_user.notifications.where(read: false).count %></span>
+  <!-- Turbo Frame for Live Updating -->
+  <turbo-frame id="items_list">
+    <%= render partial: "items/items_list", locals: { items: @items } %>
+  </turbo-frame>
+
+  <!-- ====================== UNAVAILABLE ITEMS ====================== -->
+  <h2 style="margin-bottom: 15px;">🚫 Unavailable Items</h2>
+  <div class="item-items-container">
+    <% @unavailable_items.each do |item| %>
+      <div class="item-card">
+        <% if item.image.attached? %>
+          <%= image_tag item.image, width: 180, height: 180, style: "object-fit: cover;" %>
+        <% else %>
+          <%= image_tag "https://via.placeholder.com/180", width: 180, height: 180, style: "object-fit: cover;" %>
         <% end %>
+
+        <p class="item-name"><%= item.name %></p>
+
+        <% if item.category %>
+          <span class="item-category"><%= item.category.emoji %> <%= item.category.name %></span>
+        <% end %>
+
+        <p class="item-price"><%= number_to_currency(item.price, unit: "₹") %></p>
+        <%= link_to "Edit", edit_item_path(item), class: "item-btn item-btn-primary" %>
       </div>
-    </div>
-  <% else %>
-    <h1>Welcome to Our Shop</h1>
-    <div class="item-nav-links">
-      <%= link_to 'Sign in', new_user_session_path, class: "item-btn item-btn-primary" %>
-    </div>
-  <% end %>
-</header>
+    <% end %>
+  </div>
 
-<%= link_to "📋 All Menu", items_path, class: "item-category-label" %>
 
-<h2 style="margin-bottom: 15px;">📂 Categories</h2>
-<div class="item-categories">
-  <% Category.all.each do |category| %>
-    <%= link_to "#{category.emoji} #{category.name}", items_path(category_id: category.id), class: "item-category-label" %>
-  <% end %>
-</div>
+<% else %>
+  <header class="item-header">
+    <% if user_signed_in? %>
+      <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 5px;">
+        <%= button_to 'Sign out', destroy_user_session_path, method: :delete, class: "item-btn item-btn-secondary" %>
+        <h1>Welcome, <%= current_user.email %> 👋</h1>
+      </div>
 
-<h2 style="margin-bottom: 20px;">🛍️ Available Items</h2>
-<div class="item-items-container">
-  <% @items.each do |item| %>
-    <div class="item-card">
-      <% if item.image.attached? %>
-        <%= image_tag item.image, width: 180, height: 180, style: "object-fit: cover;" %>
-      <% else %>
-        <%= image_tag "https://via.placeholder.com/180", width: 180, height: 180, style: "object-fit: cover;" %>
-      <% end %>
-      <p class="item-name"><%= item.name %></p>
-      <% if item.category %>
-        <span class="item-category"><%= item.category.emoji %> <%= item.category.name %></span>
-      <% end %>
-      <p class="item-price"><%= number_to_currency(item.price ,unit: "₹") %></p>
-      <%= button_to "Add to Cart", cart_items_path(item_id: item.id), method: :post, class: "item-btn item-btn-primary" %>
-    </div>
-  <% end %>
-</div>
+      <div class="item-nav-links">
+        <%= link_to "My Orders", orders_path, class: "item-btn-orders" %>
+        <%= link_to "My Cart", cart_items_path, class: "item-btn-cart" %>
+        <div id="item-notification-bell">
+          <%= link_to notifications_path do %>
+            🔔
+            <span id="item-notification-count"><%= current_user.notifications.where(read: false).count %></span>
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <h1>Welcome to Our Shop</h1>
+      <div class="item-nav-links">
+        <%= link_to "Sign in", new_user_session_path, class: "item-btn item-btn-primary" %>
+      </div>
+    <% end %>
+  </header>
 
+  <!-- ====================== CATEGORIES ====================== -->
+    <div class="item-categories">
+    <%= link_to "📋 All Menu",
+                items_path,
+                class: "item-category-label",
+                data: { turbo_frame: "items_list" } %>
+
+   <h2 style="margin-bottom: 15px;">📂 Categories</h2>
+
+    <% Category.all.each do |category| %>
+      <%= link_to "#{category.emoji} #{category.name}",
+                  items_path(category_id: category.id),
+                  class: "item-category-label",
+                  data: { turbo_frame: "items_list" } %>
+    <% end %>
+  </div>
+
+  <!-- ====================== AVAILABLE ITEMS ====================== -->
+  <h2 style="margin-bottom: 20px;">🛍️ Available Items</h2>
+
+  <turbo-frame id="items_list">
+    <%= render partial: "items/items_list", locals: { items: @items } %>
+  </turbo-frame>
 <% end %>
