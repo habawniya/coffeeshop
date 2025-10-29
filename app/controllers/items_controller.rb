@@ -19,18 +19,15 @@ class ItemsController < ApplicationController
    end
   end
 
-  # GET /items/:id
   def show
     authorize @item
   end
 
-  # GET /items/new
   def new
     @item = Item.new
     authorize @item
   end
 
-  # POST /items
   def create
     @item = Item.new(item_params)
     authorize @item
@@ -42,12 +39,10 @@ class ItemsController < ApplicationController
     end
   end
 
-  # GET /items/:id/edit
   def edit
     authorize @item
   end
 
-  # PATCH/PUT /items/:id
   def update
     authorize @item
     if @item.update(item_params)
@@ -57,7 +52,6 @@ class ItemsController < ApplicationController
     end
   end
 
-  # DELETE /items/:id
   def destroy
     authorize @item
     @item.destroy

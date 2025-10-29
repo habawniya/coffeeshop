@@ -1,6 +1,11 @@
-<style>
+  <div class="cart-action-buttons">
+      <%= link_to "← Back", 
+      items_path, 
+      method: :get,
+      data: { turbo_action: "replace", turbo_frame: "_top" },
+      class: "cart-btn cart-btn-secondary" %>
+    </div>
 
-</style>
 
 <h2>🔔 Notifications</h2>
 

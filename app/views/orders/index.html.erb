@@ -1,11 +1,19 @@
-  <% if current_user.admin?%>
+<% if current_user.admin?%>
   <div class="cart-action-buttons">
-      <%= link_to "← Back", items_path, class: "cart-btn cart-btn-secondary" %>
+      <%= link_to "← Back", 
+      items_path, 
+      method: :get,
+      data: { turbo_action: "replace", turbo_frame: "_top" },
+      class: "cart-btn cart-btn-secondary" %>
     </div>
 
  <% else%>
 <div class="cart-action-buttons">
-    <%= link_to "← Continue Shopping", items_path, class: "cart-btn cart-btn-secondary" %>
+    <%= link_to "← Continue Shopping",
+      items_path, 
+      method: :get,
+      data: { turbo_action: "replace", turbo_frame: "_top" },
+      class: "cart-btn cart-btn-secondary" %>
   </div>
   <% end %>
 
@@ -28,7 +36,11 @@
           <p>🛍️ Total Items: <%= order.order_items.sum(:quantity) %></p>
           <p>💰 Grand Total: ₹<%= order.order_items.sum { |oi| oi.price } %></p>
         </div>
-        <%= link_to "View Details →", order_path(order), class: "btn btn-primary" %>
+        <%= link_to "View Details →",
+        order_path(order), 
+        method: :get,
+        data: { turbo_action: "replace", turbo_frame: "_top" },
+        class: "btn btn-primary" %>
       </div>
     <% end %>
   </div>
@@ -36,10 +48,10 @@
   <div class="no-orders">
     <h3>No orders yet 🛒</h3>
      <% if current_user.admin?%>
-    <%= link_to "Go to Items", items_path, class: "btn btn-primary" %>
+    <%= link_to "Go to Items", items_path,method: :get,data: { turbo_action: "replace", turbo_frame: "_top" }, class: "btn btn-primary" %>
     <% else %>
     <p>Looks like you haven’t placed any orders.</p>
-    <%= link_to "Browse Items", items_path, class: "btn btn-primary" %>
+    <%= link_to "Browse Items", items_path, method: :get,data: { turbo_action: "replace", turbo_frame: "_top" },class: "btn btn-primary" %>
     <% end %>
   </div>
 <% end %>

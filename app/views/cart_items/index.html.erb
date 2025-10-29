@@ -1,7 +1,8 @@
 <% if @cart_items.empty? %>
   <div class="cart-empty">
     <h2>Your Cart is Empty 🛒</h2>
-    <%= link_to "Continue Shopping", items_path, class: "cart-btn cart-btn-secondary" %>
+    <%= link_to "Continue Shopping", items_path,method: :get, data: { turbo_action: "replace", turbo_frame: "_top" }, class: "cart-btn cart-btn-secondary" %>
+
   </div>
 <% else %>
   <h2>Your Cart 🛍️</h2>
@@ -72,10 +73,10 @@
     <% end %>
 
     <h2>Grand Total: <%= number_to_currency(@grand_total, unit: "₹") %></h2>
-    <%= button_to "Place Order", orders_path, method: :post, class: "cart-btn cart-btn-success" %>
+    <%= button_to "Place Order", orders_path, method: :post, data: { turbo_action: "replace", turbo_frame: "_top" },class: "cart-btn cart-btn-success" %>
   </div>
 
   <div class="cart-action-buttons">
-    <%= link_to "← Continue Shopping", items_path, class: "cart-btn cart-btn-secondary" %>
+    <%= link_to "← Continue Shopping", items_path, method: :get, data: { turbo_action: "replace", turbo_frame: "_top" }, class: "cart-btn cart-btn-secondary" %>
   </div>
 <% end %>

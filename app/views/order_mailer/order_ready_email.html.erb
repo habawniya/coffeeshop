@@ -1,14 +1,14 @@
 <h1>Hello <%= @user.email %>,</h1>
 
-<p>Your order #<%= @order.id %> has been successfully completed ✅</p>
+<p>Your order #<%= @order.id %> is now ready for pickup/delivery.</p>
 
 <p>Order Details:</p>
 <ul>
   <% @order.order_items.each do |oi| %>
-    <li><%= oi.item.name %> x <%= oi.quantity %> - ₹<%= oi.price %></li>
+    <li><%= oi.item.name %> x <%= oi.quantity %> - $<%= oi.price %></li>
   <% end %>
 </ul>
 
-<p><strong>Total Price:</strong> ₹<%= @order.total_price %></p>
+<p>Total Price: ₹<%= @order.total_price %></p>
 
-<p>🎉 Thank you for visiting us! We hope to serve you again soon. ☕</p>
+<p>🎉 Thank you for your order! </p>

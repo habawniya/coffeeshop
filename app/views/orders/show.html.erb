@@ -45,8 +45,12 @@
   </div>
 </div>
 <div class="show-order-back-link">
-  <%= link_to "← Back to Orders", orders_path, class: "show-order-btn show-order-btn-secondary" %>
-
+  <%= link_to "← Back to Orders",
+      orders_path, 
+      method: :get,
+      data: { turbo_action: "replace", turbo_frame: "_top" },
+      class: "show-order-btn show-order-btn-secondary" %>
+        
   <% if current_user.admin? %>
     <%= link_to "✏️ Update Order", edit_order_path(@order), class: "show-order-btn show-order-btn-primary", style: "margin-left: 10px;" %>
   <% end %>
