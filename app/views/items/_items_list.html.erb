@@ -23,7 +23,7 @@
       <% else %>
       <%= button_to "Add to Cart",
         cart_items_path(item_id: item.id),
-        method: :post,
+        method: :get,
         data: { turbo_action: "replace", turbo_frame: "_top" },
         class: "item-btn item-btn-primary" %>
 
